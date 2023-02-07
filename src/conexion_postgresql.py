@@ -67,6 +67,35 @@ def Crear_Usuario(id, nombre, apellido, email,  telefono, rol_id ): #pide los da
         conecction.close()
         print("conexion finalizada")
 
-#Crear_Usuario(3,"Jose","Perez","joseperez@gmail.com",2132141,2) 
+
+def Crear_producto(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id,cantidad ): #pide los datos para crear un nuevo producto y asu vez para crear el inventario de este
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute("insert into inventario (id, cantidad) values (%s,%s)",(inventario_id, cantidad))
+        conecction.commit()
+        insertquery = "insert into producto  (id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id) values (%s,%s,%s,%s,%s,%s,%s)"
+        cursor.execute(insertquery,(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id))
+        conecction.commit()
+        
+        for row in cur.fetchall():
+            print(row["nombre"],row["apellido"])
+        cur.close()
+
+       
+    except Exception as error: 
+        print(error)
+    finally:
+        
+        conecction.close()
+        print("conexion finalizada")
+        
+#Crear_producto(1,"Galletas",200,"deliciosas galletas",3,1,3,100) # prueba de ingreso de datos
 
 #  cursor.execute("SELECT * from usuario") row=cursor.fetchone() print(row)
