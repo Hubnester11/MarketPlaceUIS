@@ -95,7 +95,57 @@ def Crear_producto(id, nombre, precio, descripcion,  categoria_producto_id, inve
         
         conecction.close()
         print("conexion finalizada")
+
+def Update_Usuario(id,telefono): #Pide el dato a cambiar de usuario, plantilla de update
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "update usuario set telefono = %s where id = %s"
+        cursor.execute(insertquery,(telefono,id))
+        conecction.commit()
+        cur.close()
+
+       
+    except Exception as error: 
+        print(error)
+    finally:
         
+        conecction.close()
+        print("conexion finalizada")
+
+
+def Delete_Usuario(id): #Pide el dato para eliminar un usuario mediante el id, plantilla de delete
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "Delete from usuario WHERE id = %s"
+        cursor.execute(insertquery,ids)
+        conecction.commit()
+        cur.close()
+
+       
+    except Exception as error: 
+        print(error)
+    finally:
+        
+        conecction.close()
+        print("conexion finalizada")
+
+#Crear_Usuario(4, 'Juan', 'Aguila', 'juanaguila',  123654, 2 )
+Delete_Usuario(4)
 #Crear_producto(1,"Galletas",200,"deliciosas galletas",3,1,3,100) # prueba de ingreso de datos
 
 #  cursor.execute("SELECT * from usuario") row=cursor.fetchone() print(row)
