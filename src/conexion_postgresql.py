@@ -1,6 +1,31 @@
 import psycopg2
 from psycopg2 import extras
 
+def Crear_Usuario(id, nombre, apellido, email,  telefono, rol_id ): #pide los datos para crear un nuevo usuario
+    
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "insert into usuario  (id, nombre, apellido, email, telefono, rol_id) values (%s,%s,%s,%s,%s,%s)"
+        cursor.execute(insertquery,(id, nombre, apellido, email, telefono, rol_id))
+        conecction.commit()
+        cur.close()
+        return ("usuario registrado de forma correcta")
+
+       
+    except Exception as error: 
+        return ("error al registrar el usuario, error :   " + error)
+    finally:
+        
+        conecction.close()
+        print("conexion finalizada")
+
 def Consultar_usuario(): #funcion para consultar los usuarios
     
     try: 
@@ -23,31 +48,6 @@ def Consultar_usuario(): #funcion para consultar los usuarios
        
     except Exception as error: 
         print("error al consutar los usuarios" + error)
-    finally:
-        
-        conecction.close()
-        print("conexion finalizada")
-
-def Crear_Usuario(id, nombre, apellido, email,  telefono, rol_id ): #pide los datos para crear un nuevo usuario
-    
-    try: 
-        conecction=psycopg2.connect(
-            host="localhost",
-            user="postgres",
-            password="12345",
-            database="MarketPlaceUIS"
-            )
-        cursor=conecction.cursor()
-        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        insertquery = "insert into usuario  (id, nombre, apellido, email, telefono, rol_id) values (%s,%s,%s,%s,%s,%s)"
-        cursor.execute(insertquery,(id, nombre, apellido, email, telefono, rol_id))
-        conecction.commit()
-        cur.close()
-        return ("usuario registrado de forma correcta")
-
-       
-    except Exception as error: 
-        return ("error al registrar el usuario, error :   " + error)
     finally:
         
         conecction.close()
@@ -155,6 +155,37 @@ def Consultar_producto(id_categoria): #funcion para consultar los usuarios
         conecction.close()
         print("conexion finalizada")
 
+def Update_Producto_inventario(id, inventario): #Pide el id del producto y la cantidad para añadir al inventario.
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids = str(id)
+        inventarios = str(inventario)
+        id_inventario = 0
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute("SELECT * FROM producto where id=%s", (ids))
+        for row in cur.fetchall():
+            id_inventario = str(row["inventario_id"])
+        insertquery = "update inventario set cantidad = %s where id = %s"
+        cur.execute(insertquery,(inventarios, id_inventario ))
+        conecction.commit()
+        cur.close()
+        return ("Datos Actualizados correctamente")
+
+       
+    except Exception as error: 
+        return ("error al actualizar el usuario, error :   " + error)
+    finally:
+        
+        conecction.close()
+        print("conexion finalizada")
+
+
 def Delete_Producto(id): #Pide el dato para eliminar un producto mediante el id, tambien elimina su inventario 
     try: 
         conecction=psycopg2.connect(
@@ -184,3 +215,4 @@ def Delete_Producto(id): #Pide el dato para eliminar un producto mediante el id,
         return ("error al eliminar el producto, error :   " + error)
     finally:
         conecction.close()
+Update_Producto_inventario(3,150)
