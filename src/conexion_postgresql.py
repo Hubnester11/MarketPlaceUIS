@@ -63,13 +63,12 @@ def Crear_Usuario(id, nombre, apellido, email,  telefono, rol_id ): #pide los da
         insertquery = "insert into usuario  (id, nombre, apellido, email, telefono, rol_id) values (%s,%s,%s,%s,%s,%s)"
         cursor.execute(insertquery,(id, nombre, apellido, email, telefono, rol_id))
         conecction.commit()
-        for row in cur.fetchall():
-            print(row["nombre"],row["apellido"])
         cur.close()
+        return ("usuario registrado de forma correcta")
 
        
     except Exception as error: 
-        print(error)
+        return ("error al registrar el usuario :   " + error)
     finally:
         
         conecction.close()
@@ -116,6 +115,7 @@ def Update_Usuario(id,telefono): #Pide el dato a cambiar de usuario, plantilla d
         cursor.execute(insertquery,(telefono,id))
         conecction.commit()
         cur.close()
+        return ("Datos Actualizados correctamente")
 
        
     except Exception as error: 

@@ -16,11 +16,23 @@ class Usuario(BaseModel):
 app = FastAPI()
 @app.get('/')
 def read_root():
-    return {'Hello'' World!!!'}
+    return {'Bienvenido a MarketPlace UIS'}
+
+@app.post('/usuario/crear') #Creacion de usuario, se asume que el usuario nunca sera un moderador, asi que por default su rol sera 2
+def Crear_user(id:int, nombre:str, apellido:str, email:str,  telefono:int):
+    respuesta = Crear_Usuario(id, nombre, apellido, email,  telefono, 2)
+    return respuesta
+
 
 @app.get('/usuario')  #Busqueda de los Usuarios
 def Consultar_user():
     return Consultar_usuario()
+
+
+@app.put('/usuario/update')
+def actualizar_user(id:int, telefono:int):
+    resultado = Update_Usuario(id,telefono)
+    return resultado
 
 
 @app.get('/producto') #Busqueda de los productos a traves de su categoria
@@ -34,3 +46,4 @@ def Consultar_produc(categoria: int):
 def Crear_product(id:int, nombre:str, precio:int, descripcion:str,  categoria_producto_id:int, inventario_id:int, usuario_id:int,cantidad:int):
     resultado = Crear_producto(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id,cantidad)
     return resultado
+
