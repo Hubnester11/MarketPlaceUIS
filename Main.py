@@ -27,6 +27,10 @@ def Consultar_user():
 def Consultar_produc(categoria: int):
     Consultar_produc = Consultar_producto(categoria)
     return Consultar_produc
-#@app.post('/')
-#async def Crear_Usuario(user: Usuario):
-#    return user
+
+
+
+@app.post('/producto/creacion') #Creacion de Productos
+def Crear_product(id:int, nombre:str, precio:int, descripcion:str,  categoria_producto_id:int, inventario_id:int, usuario_id:int,cantidad:int):
+    resultado = Crear_producto(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id,cantidad)
+    return resultado

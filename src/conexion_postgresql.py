@@ -91,10 +91,8 @@ def Crear_producto(id, nombre, precio, descripcion,  categoria_producto_id, inve
         insertquery = "insert into producto  (id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id) values (%s,%s,%s,%s,%s,%s,%s)"
         cursor.execute(insertquery,(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id))
         conecction.commit()
-        
-        for row in cur.fetchall():
-            print(row["nombre"],row["apellido"])
         cur.close()
+        return("registro realizado de forma satisfactoria")
 
        
     except Exception as error: 
