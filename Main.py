@@ -29,9 +29,14 @@ def Consultar_user():
     return Consultar_usuario()
 
 
-@app.put('/usuario/update')
+@app.put('/usuario/update') #actualizacion de dato usuario
 def actualizar_user(id:int, telefono:int):
     resultado = Update_Usuario(id,telefono)
+    return resultado
+
+@app.delete('/usuario/delete') #eliminacion del usuario, se pide solo el id.
+def delete_user(id:int):
+    resultado = Delete_Usuario(id)
     return resultado
 
 

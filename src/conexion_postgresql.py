@@ -119,7 +119,7 @@ def Update_Usuario(id,telefono): #Pide el dato a cambiar de usuario, plantilla d
 
        
     except Exception as error: 
-        print(error)
+        return ("error al actualizar el usuario :   " + error)
     finally:
         
         conecction.close()
@@ -141,14 +141,14 @@ def Delete_Usuario(id): #Pide el dato para eliminar un usuario mediante el id, p
         cursor.execute(insertquery,ids)
         conecction.commit()
         cur.close()
+        return("usuario eliminado con exito")
 
        
     except Exception as error: 
-        print(error)
+        return ("error al eliminar el usuario :   " + error)
     finally:
-        
         conecction.close()
-        print("conexion finalizada")
+        
 
 def Consultar_producto(id_categoria): #funcion para consultar los usuarios
     
