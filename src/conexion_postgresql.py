@@ -1,26 +1,5 @@
 import psycopg2
 from psycopg2 import extras
-import numpy as np
-
-
-def Conexion_base(): #Funcion Para Realizar la conexion de la base de datos.
-    try: 
-        conecction=psycopg2.connect(
-            host="localhost",
-            user="postgres",
-            password="12345",
-            database="MarketPlaceUIS"
-            )
-        print("conexion exitosa") #verificar que la conexion se realizo
-        cursor=conecction.cursor()
-       
-    except Exception as error: 
-        print(error)
-    finally:
-        
-        conecction.close()
-        print("conexion finalizada")
-
 
 def Consultar_usuario(): #funcion para consultar los usuarios
     
@@ -43,7 +22,7 @@ def Consultar_usuario(): #funcion para consultar los usuarios
 
        
     except Exception as error: 
-        print(error)
+        print("error al consutar los usuarios" + error)
     finally:
         
         conecction.close()
@@ -68,34 +47,7 @@ def Crear_Usuario(id, nombre, apellido, email,  telefono, rol_id ): #pide los da
 
        
     except Exception as error: 
-        return ("error al registrar el usuario :   " + error)
-    finally:
-        
-        conecction.close()
-        print("conexion finalizada")
-
-
-def Crear_producto(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id,cantidad ): #pide los datos para crear un nuevo producto y asu vez para crear el inventario de este
-    try: 
-        conecction=psycopg2.connect(
-            host="localhost",
-            user="postgres",
-            password="12345",
-            database="MarketPlaceUIS"
-            )
-        cursor=conecction.cursor()
-        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cursor.execute("insert into inventario (id, cantidad) values (%s,%s)",(inventario_id, cantidad))
-        conecction.commit()
-        insertquery = "insert into producto  (id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id) values (%s,%s,%s,%s,%s,%s,%s)"
-        cursor.execute(insertquery,(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id))
-        conecction.commit()
-        cur.close()
-        return("registro realizado de forma satisfactoria")
-
-       
-    except Exception as error: 
-        print(error)
+        return ("error al registrar el usuario, error :   " + error)
     finally:
         
         conecction.close()
@@ -119,7 +71,7 @@ def Update_Usuario(id,telefono): #Pide el dato a cambiar de usuario, plantilla d
 
        
     except Exception as error: 
-        return ("error al actualizar el usuario :   " + error)
+        return ("error al actualizar el usuario, error :   " + error)
     finally:
         
         conecction.close()
@@ -145,10 +97,38 @@ def Delete_Usuario(id): #Pide el dato para eliminar un usuario mediante el id, p
 
        
     except Exception as error: 
-        return ("error al eliminar el usuario :   " + error)
+        return ("error al eliminar el usuario, error :   " + error)
     finally:
         conecction.close()
+
+
+def Crear_producto(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id,cantidad ): #pide los datos para crear un nuevo producto y asu vez para crear el inventario de este
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute("insert into inventario (id, cantidad) values (%s,%s)",(inventario_id, cantidad))
+        conecction.commit()
+        insertquery = "insert into producto  (id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id) values (%s,%s,%s,%s,%s,%s,%s)"
+        cursor.execute(insertquery,(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id))
+        conecction.commit()
+        cur.close()
+        return("registro realizado de forma satisfactoria")
+
+       
+    except Exception as error: 
+        return ("error al crear el producto, error :   " + error)
+    finally:
         
+        conecction.close()
+        print("conexion finalizada")
+
+
 
 def Consultar_producto(id_categoria): #funcion para consultar los usuarios
     
@@ -167,20 +147,40 @@ def Consultar_producto(id_categoria): #funcion para consultar los usuarios
         for row in cur.fetchall():
             datos.append(row)
         cur.close()
-        return datos  
-        
-
-       
+        return datos 
     except Exception as error: 
-        print(error)
+        return ("error al consultar los productos, error :   " + error)
     finally:
         
         conecction.close()
         print("conexion finalizada")
-print(Consultar_producto(3))
-#Crear_Usuario(4, 'Juan', 'Aguila', 'juanaguila',  123654, 2 )
 
+def Delete_Producto(id): #Pide el dato para eliminar un producto mediante el id, tambien elimina su inventario 
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        id_inventario = 0
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "Delete from producto WHERE id = %s"
+        insertquery1 = "Delete from inventario Where id= %s"
+        cur.execute("SELECT * FROM producto where id=%s", (ids))
+        for row in cur.fetchall():
+           id_inventario = str((row["inventario_id"]))
+        cursor.execute(insertquery,ids)
+        conecction.commit()
+        cursor.execute(insertquery1,id_inventario)
+        conecction.commit()
+        cur.close()
+        return("producto eliminado con exito")
 
-#Crear_producto(3,"mora",200,"deliciosas moras",3,3,3,100) # prueba de ingreso de datos
-
-#  cursor.execute("SELECT * from usuario") row=cursor.fetchone() print(row)
+       
+    except Exception as error: 
+        return ("error al eliminar el producto, error :   " + error)
+    finally:
+        conecction.close()

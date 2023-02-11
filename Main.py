@@ -52,3 +52,7 @@ def Crear_product(id:int, nombre:str, precio:int, descripcion:str,  categoria_pr
     resultado = Crear_producto(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id,cantidad)
     return resultado
 
+@app.delete('/producto/delete') #eliminacion del usuario, se pide solo el id.
+def delete_producto(id:int):
+    resultado = Delete_Producto(id)
+    return resultado
