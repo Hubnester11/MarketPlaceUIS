@@ -215,4 +215,3 @@ def Delete_Producto(id): #Pide el dato para eliminar un producto mediante el id,
         return ("error al eliminar el producto, error :   " + error)
     finally:
         conecction.close()
-Update_Producto_inventario(3,150)
