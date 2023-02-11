@@ -18,10 +18,15 @@ app = FastAPI()
 def read_root():
     return {'Hello'' World!!!'}
 
-@app.get('/producto')
-def Consultar():
-    
+@app.get('/usuario')  #Busqueda de los Usuarios
+def Consultar_user():
     return Consultar_usuario()
+
+
+@app.get('/producto') #Busqueda de los productos a traves de su categoria
+def Consultar_produc(categoria: int):
+    Consultar_produc = Consultar_producto(categoria)
+    return Consultar_produc
 #@app.post('/')
 #async def Crear_Usuario(user: Usuario):
 #    return user

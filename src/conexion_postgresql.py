@@ -168,7 +168,6 @@ def Consultar_producto(id_categoria): #funcion para consultar los usuarios
         datos = []
         for row in cur.fetchall():
             datos.append(row)
-            print(row)
         cur.close()
         return datos  
         
@@ -180,7 +179,7 @@ def Consultar_producto(id_categoria): #funcion para consultar los usuarios
         
         conecction.close()
         print("conexion finalizada")
-print(Consultar_usuario())
+print(Consultar_producto(3))
 #Crear_Usuario(4, 'Juan', 'Aguila', 'juanaguila',  123654, 2 )
 
 
