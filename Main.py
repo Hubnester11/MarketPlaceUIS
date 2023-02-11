@@ -2,16 +2,7 @@
 #pip install "uvicorn[standard]"  #Instalacion de fastapi y uvicorn
 from fastapi import FastAPI
 from typing import Union
-from pydantic import BaseModel
 from src.conexion_postgresql import *
-
-class Usuario(BaseModel):
-    id:int 
-    nombre:str 
-    apellido:str 
-    email:str  
-    telefono:int 
-    rol_id:int 
 
 app = FastAPI()
 @app.get('/')
@@ -52,7 +43,13 @@ def Crear_product(id:int, nombre:str, precio:int, descripcion:str,  categoria_pr
     resultado = Crear_producto(id, nombre, precio, descripcion,  categoria_producto_id, inventario_id, usuario_id,cantidad)
     return resultado
 
+@app.put('/producto/update') #actualizacion de dato producto
+def actualizar_producto_inventario(id:int, inventario:int):
+    resultado = Update_Producto_inventario(id,inventario)
+    return resultado
+
 @app.delete('/producto/delete') #eliminacion del usuario, se pide solo el id.
 def delete_producto(id:int):
     resultado = Delete_Producto(id)
     return resultado
+
