@@ -1,5 +1,8 @@
 import psycopg2
 from psycopg2 import extras
+import numpy as np
+
+
 def Conexion_base(): #Funcion Para Realizar la conexion de la base de datos.
     try: 
         conecction=psycopg2.connect(
@@ -20,6 +23,7 @@ def Conexion_base(): #Funcion Para Realizar la conexion de la base de datos.
 
 
 def Consultar_usuario(): #funcion para consultar los usuarios
+    
     try: 
         conecction=psycopg2.connect(
             host="localhost",
@@ -27,12 +31,15 @@ def Consultar_usuario(): #funcion para consultar los usuarios
             password="12345",
             database="MarketPlaceUIS"
             )
-       
+        datos = []
         cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute("SELECT * FROM usuario")
         for row in cur.fetchall():
-            print(row["nombre"],row["apellido"])
+           x = (row["nombre"],row["apellido"])
+           datos.append(x)
+           
         cur.close()
+        return datos
 
        
     except Exception as error: 
@@ -43,6 +50,7 @@ def Consultar_usuario(): #funcion para consultar los usuarios
         print("conexion finalizada")
 
 def Crear_Usuario(id, nombre, apellido, email,  telefono, rol_id ): #pide los datos para crear un nuevo usuario
+    
     try: 
         conecction=psycopg2.connect(
             host="localhost",
@@ -144,8 +152,38 @@ def Delete_Usuario(id): #Pide el dato para eliminar un usuario mediante el id, p
         conecction.close()
         print("conexion finalizada")
 
+def Consultar_producto(id_categoria): #funcion para consultar los usuarios
+    
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+       
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        ids= str(id_categoria)
+        cur.execute("select * from producto where categoria_producto_id = %s",(ids))
+        datos = []
+        for row in cur.fetchall():
+            datos.append(row)
+            print(row)
+        cur.close()
+        return datos  
+        
+
+       
+    except Exception as error: 
+        print(error)
+    finally:
+        
+        conecction.close()
+        print("conexion finalizada")
+print(Consultar_usuario())
 #Crear_Usuario(4, 'Juan', 'Aguila', 'juanaguila',  123654, 2 )
-Delete_Usuario(4)
-#Crear_producto(1,"Galletas",200,"deliciosas galletas",3,1,3,100) # prueba de ingreso de datos
+
+
+#Crear_producto(3,"mora",200,"deliciosas moras",3,3,3,100) # prueba de ingreso de datos
 
 #  cursor.execute("SELECT * from usuario") row=cursor.fetchone() print(row)
