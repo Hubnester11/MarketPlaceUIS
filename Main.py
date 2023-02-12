@@ -14,11 +14,9 @@ def Crear_user(id:int, nombre:str, apellido:str, email:str,  telefono:int):
     respuesta = Crear_Usuario(id, nombre, apellido, email,  telefono, 2)
     return respuesta
 
-
 @app.get('/usuario')  #Busqueda de los Usuarios
 def Consultar_user():
     return Consultar_usuario()
-
 
 @app.put('/usuario/update') #actualizacion de dato usuario
 def actualizar_user(id:int, telefono:int):
@@ -30,13 +28,10 @@ def delete_user(id:int):
     resultado = Delete_Usuario(id)
     return resultado
 
-
 @app.get('/producto') #Busqueda de los productos a traves de su categoria
 def Consultar_produc(categoria: int):
     Consultar_produc = Consultar_producto(categoria)
     return Consultar_produc
-
-
 
 @app.post('/producto/creacion') #Creacion de Productos
 def Crear_product(id:int, nombre:str, precio:int, descripcion:str,  categoria_producto_id:int, inventario_id:int, usuario_id:int,cantidad:int):
@@ -53,3 +48,12 @@ def delete_producto(id:int):
     resultado = Delete_Producto(id)
     return resultado
 
+@app.post('/servicio/creacion') #Creacion de Productos
+def Crear_servicio(id:int, usuario_id:int, servicioid:int, precio_hora:int, descripcion:str, nombre:str, categoria_servicio:int ):
+    resultado = Crear_Servicio(id, usuario_id, servicioid, precio_hora, descripcion, nombre, categoria_servicio)
+    return resultado
+
+@app.get('/servicio') #Busqueda de los servicio a traves de su categoria
+def Consultar_servicio(categoria: int):
+    Consultar_produc = Consultar_Servicio(categoria)
+    return Consultar_produc
