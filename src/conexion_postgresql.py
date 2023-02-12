@@ -283,3 +283,31 @@ def Update_Servicio(id,precio_hora): #Pide el precio a cambiar de servicio prove
         return ("error al actualizar el usuario, error :   " + error)
     finally:
         conecction.close()
+
+def Delete_Servicio(id,id_servicio): #Pide el dato para eliminar un producto mediante el id, tambien elimina su inventario 
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        ids1=str(id_servicio)
+        
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "Delete from proveedor_servicio WHERE servicio_id = %s"
+        insertquery1 = "Delete from servicio Where id= %s"
+        cur.execute("SELECT * FROM proveedor_servicio where id=%s", (ids))
+        cursor.execute(insertquery,ids1)
+        conecction.commit()
+        cursor.execute(insertquery1,ids1)
+        conecction.commit()
+        cur.close()
+        return("servicio eliminado con exito")
+    except Exception as error: 
+        return ("error al eliminar el producto, error :   " + error)
+    finally:
+        conecction.close()
+

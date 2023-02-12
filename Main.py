@@ -58,7 +58,12 @@ def Consultar_servicio(categoria: int):
     Consultar_produc = Consultar_Servicio(categoria)
     return Consultar_produc
 
-@app.put('/servicio/update') #actualizacion de dato producto
+@app.put('/servicio/update') #actualizacion de dato servicio
 def actualizar_servicio(id:int, precio_hora:int):
     resultado = Update_Servicio(id,precio_hora)
+    return resultado
+
+@app.delete('/servicio/delete') #eliminacion de un servicio y su proovedor, se pide solo el id del proovedor.
+def delete_servicio(id:int, idservicio:int):
+    resultado = Delete_Servicio(id, idservicio)
     return resultado
