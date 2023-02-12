@@ -57,3 +57,8 @@ def Crear_servicio(id:int, usuario_id:int, servicioid:int, precio_hora:int, desc
 def Consultar_servicio(categoria: int):
     Consultar_produc = Consultar_Servicio(categoria)
     return Consultar_produc
+
+@app.put('/servicio/update') #actualizacion de dato producto
+def actualizar_servicio(id:int, precio_hora:int):
+    resultado = Update_Servicio(id,precio_hora)
+    return resultado

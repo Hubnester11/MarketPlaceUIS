@@ -261,3 +261,25 @@ def Consultar_Servicio(id_servicio): #funcion para consultar los usuarios
         
         conecction.close()
         print("conexion finalizada")
+
+def Update_Servicio(id,precio_hora): #Pide el precio a cambiar de servicio proveedor, plantilla de update
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "update proveedor_servicio set precio_hora = %s where id = %s"
+        cursor.execute(insertquery,(precio_hora,id))
+        conecction.commit()
+        cur.close()
+        return ("Datos Actualizados correctamente")
+
+       
+    except Exception as error: 
+        return ("error al actualizar el usuario, error :   " + error)
+    finally:
+        conecction.close()
