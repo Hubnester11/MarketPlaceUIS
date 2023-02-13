@@ -63,7 +63,7 @@ def actualizar_servicio(id:int, precio_hora:int):
     resultado = Update_Servicio(id,precio_hora)
     return resultado
 
-@app.delete('/servicio/delete') #eliminacion de un servicio y su proovedor, se pide solo el id del proovedor.
+@app.delete('/servicio/delete') #eliminacion de un servicio y su proovedor, se pide el id del proovedor y del servicio.
 def delete_servicio(id:int, idservicio:int):
     resultado = Delete_Servicio(id, idservicio)
     return resultado
