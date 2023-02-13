@@ -235,9 +235,8 @@ def Crear_Servicio(id, usuario_id, servicioid, precio_hora, descripcion, nombre,
     finally:
         
         conecction.close()
-        print("conexion finalizada")
-
-def Consultar_Servicio(id_servicio): #funcion para consultar los usuarios
+       
+def Consultar_Servicio(id_servicio): #funcion para consultar los Servicios
     
     try: 
         conecction=psycopg2.connect(
@@ -311,3 +310,84 @@ def Delete_Servicio(id,id_servicio): #Pide el dato para eliminar un producto med
     finally:
         conecction.close()
 
+def Crear_Inmueble(id, nombre, descripcion, precio,  estado_inmueble_id, ubicacion_id, tipo_id_inmueble, id_usuario): #pide los datos para crear un nuevo inmueble y registrar el dueño
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        insertquery = "insert into inmueble (id, nombre, descripcion, precio, estado_inmueble_id, ubicacion_id, tipo_inmueble_id, usuario_id) values (%s,%s,%s,%s,%s,%s,%s,%s)"
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute(insertquery, (id, nombre, descripcion, precio,  estado_inmueble_id, ubicacion_id, tipo_id_inmueble, id_usuario)) #insert del inmueble
+        conecction.commit()
+        cur.close()
+        return("registro realizado de forma satisfactoria")
+
+    except Exception as error: 
+        return ("error al registrar el inmueble, error :   " + error)
+    finally:  
+        conecction.close()
+
+def Consultar_Inmueble(id): #funcion para consultar un inmueble
+    
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+       
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        ids= str(id)
+        cur.execute("select * from inmueble where id = %s",(ids))
+        datos = []
+        for row in cur.fetchall():
+            datos.append(row)
+        cur.close()
+        return datos 
+    except Exception as error: 
+        return ("error al consultar el inmueble, error :   " + error)
+    finally:
+        
+        conecction.close()
+        print("conexion finalizada")
+
+def Update_Inmueble(id,tipo,valor_cambio): #Pide cambiar un valor del inmueble 1 para descripcion, 2 para precio y 3 para estado.
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        if (tipo == 1):
+            insertquery = "update inmueble set descripcion = %s where id = %s"
+            cursor.execute(insertquery,(valor_cambio,id))
+            conecction.commit()
+            cur.close()
+            return ("Datos Actualizados correctamente")
+        if (tipo == 2):
+            valor = int(valor_cambio)
+            insertquery = "update inmueble set precio = %s where id = %s"
+            cursor.execute(insertquery,(valor,id))
+            conecction.commit()
+            cur.close()
+            return ("Datos Actualizados correctamente")
+        if (tipo == 3):
+            valor = int(valor_cambio)
+            insertquery = "update inmueble set estado_inmueble_id = %s where id = %s"
+            cursor.execute(insertquery,(valor,id))
+            conecction.commit()
+            cur.close()
+            return ("Datos Actualizados correctamente")
+        
+    except Exception as error: 
+        return ("error al actualizar el usuario, error :   " + error)
+    finally:
+        conecction.close()

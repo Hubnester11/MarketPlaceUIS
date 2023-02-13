@@ -67,3 +67,18 @@ def actualizar_servicio(id:int, precio_hora:int):
 def delete_servicio(id:int, idservicio:int):
     resultado = Delete_Servicio(id, idservicio)
     return resultado
+
+@app.post('/inmueble/creacion') #Creacion de Productos
+def Crear_inmueble(id:int, nombre:str, descripcion:str, precio:int,  estado_inmueble_id:int, ubicacion_id:int, tipo_id_inmueble:int, id_usuario:int ):
+    resultado = Crear_Inmueble(id, nombre, descripcion, precio,  estado_inmueble_id, ubicacion_id, tipo_id_inmueble, id_usuario)
+    return resultado
+
+@app.get('/inmueble/busqueda') #Busqueda de los servicio a traves de su categoria
+def Consultar_inmueble(id:int):
+    Consultar_inmueb = Consultar_Inmueble(id)
+    return Consultar_inmueb
+
+@app.put('/inmueble/update') #actualizacion de dato inmueble, 1 para descripcion, 2 para precio, 3 para estado
+def actualizar_inmueble(id:int, tipo:int, dato: int):
+    resultado = Update_Inmueble(id,tipo,dato)
+    return resultado
