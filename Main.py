@@ -107,3 +107,44 @@ def actualizar_compra_producto(id:int, estado_id:int):
 def delete_compra_producto(id:int):
     resultado = Delete_Compra_Producto(id)
     return resultado
+
+@app.post('/compra_servicio/creacion') #Creacion de compra del servicio
+def Crear_compra_servicio(id: int, proveedor_servicio_id:int, usuario_id:int,  estado_id:int):
+    resultado = Crear_Compra_Servicio(id, proveedor_servicio_id, usuario_id, estado_id)
+    return resultado
+
+@app.get('/compra_servicio/busqueda') #Busqueda de las compra de un servicio a traves de su id
+def Consultar_compra_servicio(id:int):
+    Consultar_compra = Consultar_Compra_Servicio(id)
+    return Consultar_compra
+
+@app.put('/compra_servicio/update') #actualizacion de dato servicio
+def actualizar_compra_producto(id:int, estado_id:int):
+    resultado = Update_Compra_Servicio(id,estado_id)
+    return resultado
+
+@app.delete('/compra_servicio/delete') #eliminacion de la compra, se pide solo el id.
+def delete_compra_servicio(id:int):
+    resultado = Delete_Compra_Servicio(id)
+    return resultado
+
+@app.post('/renta/creacion') #Creacion de la renta de un inmueble
+def Crear_renta(id: int, inmueble_id:int, usuario_id:int,  estado_id:int):
+    resultado = Crear_Renta(id, inmueble_id, usuario_id, estado_id)
+    return resultado
+
+@app.get('/renta/busqueda') #Busqueda de la renta a traves de su id
+def Consultar_renta(id:int):
+    Consultar_rentas = Consultar_Renta(id)
+    return Consultar_rentas
+
+@app.put('/renta/update') #actualizacion de estado de la renta
+def actualizar_renta(id:int, estado_id:int):
+    resultado = Update_Renta(id,estado_id)
+    return resultado
+
+@app.delete('/renta/delete') #eliminacion de la renta, se pide solo el id.
+def delete_renta(id:int):
+    resultado = Delete_Renta(id)
+    return resultado
+

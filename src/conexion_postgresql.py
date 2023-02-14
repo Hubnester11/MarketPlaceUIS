@@ -434,13 +434,13 @@ def Crear_Compra_Producto(id, usuario_id, producto_id, estado_id): #pide los dat
 
        
     except Exception as error: 
-        return ("error al registrar el usuario, error :   " + error)
+        return ("error al registrar la compra del producto, error :   " + error)
     finally:
         
         conecction.close()
         print("conexion finalizada")
 
-def Consultar_Compra_Producto(id): #funcion para consultar los productos
+def Consultar_Compra_Producto(id): #funcion para consultar la compra de productos
     
     try: 
         conecction=psycopg2.connect(
@@ -487,7 +487,7 @@ def Update_Compra_Producto(id,estado_id): #Pide el id de la compra y su estado p
     finally:
         conecction.close()
 
-def Delete_Compra_Producto(id): #Pide el dato para eliminar un usuario mediante el id
+def Delete_Compra_Producto(id): #Pide el dato para eliminar una compra mediante el id
     try: 
         conecction=psycopg2.connect(
             host="localhost",
@@ -502,10 +502,200 @@ def Delete_Compra_Producto(id): #Pide el dato para eliminar un usuario mediante 
         cursor.execute(insertquery,ids)
         conecction.commit()
         cur.close()
-        return("inmueble eliminado con exito")
+        return("compra del producto eliminada con exito")
 
        
     except Exception as error: 
         return ("error al eliminar la compra, error : " + error)
+    finally:
+        conecction.close()
+
+def Crear_Compra_Servicio(id,proveedor_servicio_id, usuario_id, estado_id): #pide los datos para crear un servicio, estado puede ser 1(en proceso) o 2 (concluida)
+    
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "insert into compra_servicio (id, proveedor_servicio_id, usuario_id, estado_id) values (%s,%s,%s,%s)"
+        cursor.execute(insertquery,(id,proveedor_servicio_id, usuario_id, estado_id))
+        conecction.commit()
+        cur.close()
+        return ("compra registrada de forma correcta")
+
+       
+    except Exception as error: 
+        return ("error al registrar la compra del servicio, error :   " + error)
+    finally:
+        
+        conecction.close()
+        print("conexion finalizada")
+
+def Consultar_Compra_Servicio(id): #funcion para consultar la compra de servicios
+    
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        datos = []
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute("SELECT * FROM compra_servicio where id = %s",ids)
+        for row in cur.fetchall():
+           datos.append(row)
+        cur.close()
+        return datos
+
+       
+    except Exception as error: 
+        print("error al consultar el servicio" + error)
+    finally:
+        
+        conecction.close()
+ 
+def Update_Compra_Servicio(id,estado_id): #Pide el id de la compra y su estado para cambiarla
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "update compra_servicio set estado_id = %s where id = %s"
+        cursor.execute(insertquery,(estado_id,id))
+        conecction.commit()
+        cur.close()
+        return ("Datos Actualizados correctamente")
+
+       
+    except Exception as error: 
+        return ("error al actualizar la compra del servicio, error :   " + error)
+    finally:
+        conecction.close()
+
+def Delete_Compra_Servicio(id): #Pide el dato para eliminar una compra el id
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "Delete from compra_servicio WHERE id = %s"
+        cursor.execute(insertquery,ids)
+        conecction.commit()
+        cur.close()
+        return("servicio eliminado con exito")
+
+       
+    except Exception as error: 
+        return ("error al eliminar la compra, error : " + error)
+    finally:
+        conecction.close()
+
+def Crear_Renta(id,inmueble_id, usuario_id, estado_id): #pide los datos para crear un servicio, estado puede ser 1(en proceso) o 2 (concluida)
+    
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "insert into renta (id, inmueble_id, usuario_id, estado_id) values (%s,%s,%s,%s)"
+        cursor.execute(insertquery,(id,inmueble_id, usuario_id, estado_id))
+        conecction.commit()
+        cur.close()
+        return ("renta registrada de forma correcta")
+
+       
+    except Exception as error: 
+        return ("error al registrar la renta, error :   " + error)
+    finally:
+        
+        conecction.close()
+        print("conexion finalizada")
+
+def Consultar_Renta(id): #funcion para consultar la compra de servicios
+    
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        datos = []
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute("SELECT * FROM renta where id = %s",ids)
+        for row in cur.fetchall():
+           datos.append(row)
+        cur.close()
+        return datos
+
+       
+    except Exception as error: 
+        print("error al consultar la renta" + error)
+    finally:
+        
+        conecction.close()
+
+def Update_Renta(id,estado_id): #Pide el id de la renta y su estado para cambiarla
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "update renta set estado_id = %s where id = %s"
+        cursor.execute(insertquery,(estado_id,id))
+        conecction.commit()
+        cur.close()
+        return ("Datos Actualizados correctamente")
+
+       
+    except Exception as error: 
+        return ("error al actualizar la renta, error :   " + error)
+    finally:
+        conecction.close()
+
+def Delete_Renta(id): #Pide el dato para eliminar una renta
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "Delete from renta WHERE id = %s"
+        cursor.execute(insertquery,ids)
+        conecction.commit()
+        cur.close()
+        return("servicio eliminado con exito")
+
+       
+    except Exception as error: 
+        return ("error al eliminar la renta, error : " + error)
     finally:
         conecction.close()
