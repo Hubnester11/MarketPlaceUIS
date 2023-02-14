@@ -100,7 +100,7 @@ def Consultar_compra_producto(id:int):
 
 @app.put('/compra_producto/update') #actualizacion de dato servicio
 def actualizar_compra_producto(id:int, estado_id:int):
-    resultado = Update_Compra_Producto(id,estado_id=)
+    resultado = Update_Compra_Producto(id,estado_id)
     return resultado
 
 @app.delete('/compra_producto/delete') #eliminacion de la compra, se pide solo el id.
