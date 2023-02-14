@@ -388,6 +388,124 @@ def Update_Inmueble(id,tipo,valor_cambio): #Pide cambiar un valor del inmueble 1
             return ("Datos Actualizados correctamente")
         
     except Exception as error: 
-        return ("error al actualizar el usuario, error :   " + error)
+        return ("error al actualizar el inmueble, error :   " + error)
+    finally:
+        conecction.close()
+
+def Delete_Inmueble(id): #Pide el dato para eliminar un usuario mediante el id, plantilla 
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "Delete from inmueble WHERE id = %s"
+        cursor.execute(insertquery,ids)
+        conecction.commit()
+        cur.close()
+        return("inmueble eliminado con exito")
+
+       
+    except Exception as error: 
+        return ("error al eliminar el inmueble, error :   " + error)
+    finally:
+        conecction.close()
+
+def Crear_Compra_Producto(id, usuario_id, producto_id, estado_id): #pide los datos para crear una compra, estado puede ser 1(en proceso) o 2 (concluida)
+    
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "insert into compra_producto (id, usuario_id, producto_id, estado_id) values (%s,%s,%s,%s)"
+        cursor.execute(insertquery,(id, usuario_id, producto_id, estado_id))
+        conecction.commit()
+        cur.close()
+        return ("compra registrada de forma correcta")
+
+       
+    except Exception as error: 
+        return ("error al registrar el usuario, error :   " + error)
+    finally:
+        
+        conecction.close()
+        print("conexion finalizada")
+
+def Consultar_Compra_Producto(id): #funcion para consultar los productos
+    
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        datos = []
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute("SELECT * FROM compra_producto where id = %s",ids)
+        for row in cur.fetchall():
+           datos.append(row)
+        cur.close()
+        return datos
+
+       
+    except Exception as error: 
+        print("error al consultar la compra" + error)
+    finally:
+        
+        conecction.close()
+ 
+def Update_Compra_Producto(id,estado_id): #Pide el id de la compra y su estado para cambiarla
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "update compra_producto set estado_id = %s where id = %s"
+        cursor.execute(insertquery,(estado_id,id))
+        conecction.commit()
+        cur.close()
+        return ("Datos Actualizados correctamente")
+
+       
+    except Exception as error: 
+        return ("error al actualizar la compra, error :   " + error)
+    finally:
+        conecction.close()
+
+def Delete_Compra_Producto(id): #Pide el dato para eliminar un usuario mediante el id
+    try: 
+        conecction=psycopg2.connect(
+            host="localhost",
+            user="postgres",
+            password="12345",
+            database="MarketPlaceUIS"
+            )
+        ids= str(id)
+        cursor=conecction.cursor()
+        cur=conecction.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        insertquery = "Delete from compra_producto WHERE id = %s"
+        cursor.execute(insertquery,ids)
+        conecction.commit()
+        cur.close()
+        return("inmueble eliminado con exito")
+
+       
+    except Exception as error: 
+        return ("error al eliminar la compra, error : " + error)
     finally:
         conecction.close()
