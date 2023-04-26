@@ -51,7 +51,7 @@ CREATE TABLE Compra_Producto (
     Producto_id int  NOT NULL,
     Chat_id int  NOT NULL,
     Estado_id int  NOT NULL,
-    fecha date  NOT NULL,
+    fecha date,
     CONSTRAINT Compra_Producto_pk PRIMARY KEY (id)
 );
 
@@ -62,7 +62,7 @@ CREATE TABLE Compra_Servicio (
     Usuario_id int  NOT NULL,
     Chat_id int  NOT NULL,
     Estado_id int  NOT NULL,
-    fecha date  NOT NULL,
+    fecha date,
     CONSTRAINT Compra_Servicio_pk PRIMARY KEY (id)
 );
 
@@ -92,7 +92,7 @@ CREATE TABLE Inmueble (
     Ubicacion_id int  NOT NULL,
     Tipo_inmueble_id int  NOT NULL,
     Usuario_id int  NOT NULL,
-    imagen bytea  NOT NULL,
+    imagen bytea,
     CONSTRAINT Inmueble_pk PRIMARY KEY (id)
 );
 
@@ -124,7 +124,7 @@ CREATE TABLE Proveedor_Servicio (
     Usuario_id int  NOT NULL,
     Servicio_id int  NOT NULL,
     precio_hora int  NOT NULL,
-    imagen bytea  NOT NULL,
+    imagen bytea,
     descripcion varchar(500)  NOT NULL,
     CONSTRAINT Proveedor_Servicio_pk PRIMARY KEY (id)
 );
@@ -134,8 +134,8 @@ CREATE TABLE Renta (
     id int  NOT NULL,
     Inmueble_id int  NOT NULL,
     Usuario_id int  NOT NULL,
-    fecha date  NOT NULL,
-    Chat_id int  NOT NULL,
+    fecha date,
+    Chat_id int,
     Estado_id int  NOT NULL,
     CONSTRAINT Renta_pk PRIMARY KEY (id)
 );
