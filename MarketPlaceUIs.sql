@@ -100,18 +100,17 @@ CREATE TABLE Inmueble (
 CREATE TABLE Inventario (
     id int  NOT NULL,
     cantidad int  NOT NULL,
-    modificado timestamp  NOT NULL,
+    modificado timestamp,
     CONSTRAINT Inventario_pk PRIMARY KEY (id)
 );
 
 -- Table: Producto
 CREATE TABLE Producto (
     id int  NOT NULL,
-    sku char(10)  NOT NULL,
     nombre varchar(255)  NOT NULL,
     precio decimal(12,2)  NOT NULL,
     descripcion varchar(1000)  NOT NULL,
-    imagen bytea  NOT NULL,
+    imagen bytea,
     Categoria_Producto_id int  NOT NULL,
     Inventario_id int  NOT NULL,
     Usuario_id int  NOT NULL,
